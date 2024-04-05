@@ -1,0 +1,9 @@
+version: "0.2"
+words:
+  - Deque
+  - repr
+useGitignore: true
+files:
+  - "**"
+enableFiletypes:
+  - "*"
