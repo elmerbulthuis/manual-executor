@@ -1,11 +1,14 @@
 use crate::key::Key;
-use std::{
-  collections::BTreeMap,
+use core::{
   future::Future,
   ops::DerefMut,
   pin::Pin,
+  task::{Context, Waker},
+};
+use std::{
+  collections::BTreeMap,
   sync::{Arc, Mutex},
-  task::{Context, Wake, Waker},
+  task::Wake,
 };
 
 type Task = Pin<Box<dyn Future<Output = ()> + Send>>;

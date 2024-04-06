@@ -1,4 +1,4 @@
-use std::sync::atomic::{AtomicUsize, Ordering};
+use core::sync::atomic::{AtomicUsize, Ordering};
 
 static NEXT_KEY: AtomicUsize = AtomicUsize::new(1);
 
