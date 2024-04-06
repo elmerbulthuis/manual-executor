@@ -24,6 +24,11 @@ impl ManualExecutor {
     })
   }
 
+  pub fn task_count(&self) -> usize {
+    let tasks = self.tasks.lock().unwrap();
+    tasks.len()
+  }
+
   pub fn spawn_wake(self: &Arc<Self>, task: impl Future<Output = ()> + Send + 'static) -> Key {
     let key = self.spawn(task);
     self.wake(key);
@@ -113,6 +118,8 @@ mod tests {
         set.as_mut().unwrap().insert("a");
       });
     }
+    assert_eq!(MANUAL_EXECUTOR.task_count(), 1);
+
     {
       let set = set.clone();
       MANUAL_EXECUTOR.spawn(async move {
@@ -120,8 +127,40 @@ mod tests {
         set.as_mut().unwrap().insert("b");
       });
     }
+    assert_eq!(MANUAL_EXECUTOR.task_count(), 2);
 
     MANUAL_EXECUTOR.wake_all();
+    assert_eq!(MANUAL_EXECUTOR.task_count(), 0);
+
+    let actual = set.lock().unwrap();
+    let expected: HashSet<_> = ["a", "b"].into();
+
+    assert_eq!(*actual, expected);
+  }
+
+  #[test]
+  fn test_wake_spawn() {
+    pub static MANUAL_EXECUTOR: Lazy<Arc<ManualExecutor>> = Lazy::new(ManualExecutor::new);
+
+    let set = Arc::new(Mutex::new(HashSet::new()));
+
+    {
+      let set = set.clone();
+      MANUAL_EXECUTOR.spawn_wake(async move {
+        let mut set = set.lock();
+        set.as_mut().unwrap().insert("a");
+      });
+    }
+    assert_eq!(MANUAL_EXECUTOR.task_count(), 0);
+
+    {
+      let set = set.clone();
+      MANUAL_EXECUTOR.spawn_wake(async move {
+        let mut set = set.lock();
+        set.as_mut().unwrap().insert("b");
+      });
+    }
+    assert_eq!(MANUAL_EXECUTOR.task_count(), 0);
 
     let actual = set.lock().unwrap();
     let expected: HashSet<_> = ["a", "b"].into();
