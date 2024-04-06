@@ -8,9 +8,9 @@ It was built to be used via ffi (also wasm). Imagine a library that wants to do 
 
 ## coverage
 
-Install grcov, llvm-tools;
+Install `grcov`, `llvm-tools`.
 
-Like this:
+Like this (on arch)
 
 ```
 pacman -S grcov
