@@ -1,4 +1,5 @@
 use crate::key::Key;
+use crate::task_wake::TaskWake;
 use core::{
   future::Future,
   ops::DerefMut,
@@ -8,7 +9,6 @@ use core::{
 use std::{
   collections::BTreeMap,
   sync::{Arc, Mutex},
-  task::Wake,
 };
 
 type Task = Pin<Box<dyn Future<Output = ()> + Send>>;
@@ -79,23 +79,6 @@ impl ManualExecutor {
 
     let poll_result = task.as_mut().poll(&mut context);
     poll_result.is_pending()
-  }
-}
-
-struct TaskWake {
-  executor: Arc<ManualExecutor>,
-  key: Key,
-}
-
-impl TaskWake {
-  fn new(executor: Arc<ManualExecutor>, key: Key) -> Arc<Self> {
-    Arc::new(Self { executor, key })
-  }
-}
-
-impl Wake for TaskWake {
-  fn wake(self: Arc<Self>) {
-    self.executor.clone().wake(self.key)
   }
 }
 
