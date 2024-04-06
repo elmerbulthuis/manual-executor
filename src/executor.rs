@@ -73,7 +73,7 @@ impl ManualExecutor {
   }
 
   fn poll_task(self: &Arc<Self>, key: Key, task: &mut Task) -> bool {
-    let wake = ManualWake::new(self.clone(), key);
+    let wake = TaskWake::new(self.clone(), key);
     let waker = Waker::from(wake.clone());
     let mut context = Context::from_waker(&waker);
 
@@ -82,18 +82,18 @@ impl ManualExecutor {
   }
 }
 
-struct ManualWake {
+struct TaskWake {
   executor: Arc<ManualExecutor>,
   key: Key,
 }
 
-impl ManualWake {
+impl TaskWake {
   fn new(executor: Arc<ManualExecutor>, key: Key) -> Arc<Self> {
     Arc::new(Self { executor, key })
   }
 }
 
-impl Wake for ManualWake {
+impl Wake for TaskWake {
   fn wake(self: Arc<Self>) {
     self.executor.clone().wake(self.key)
   }
