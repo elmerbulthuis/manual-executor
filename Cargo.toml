@@ -1,7 +1,12 @@
 [package]
 name = "manual-executor"
+description = "Async executor with manual waking"
 version = "0.1.0"
 edition = "2021"
+license = "ISC"
+authors = ["Elmer Bulthuis"]
+keywords = ["async", "executor", "async", "futures"]
+repository = "git@github.com:LuvDaSun/manual-executor"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
