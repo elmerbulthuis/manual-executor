@@ -1,7 +1,7 @@
 use crate::key::Key;
 use once_cell::sync::Lazy;
 use std::{
-  collections::{BTreeMap, BTreeSet},
+  collections::BTreeMap,
   future::Future,
   ops::DerefMut,
   pin::Pin,
