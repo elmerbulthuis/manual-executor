@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "vadimcn.vscode-lldb",
+    "streetsidesoftware.code-spell-checker",
+    "ryanluker.vscode-coverage-gutters",
+    "tamasfe.even-better-toml",
+    "rust-lang.rust-analyzer"
+  ]
+}

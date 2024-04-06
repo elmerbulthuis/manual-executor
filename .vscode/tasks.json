@@ -4,14 +4,18 @@
     {
       "type": "process",
       "command": "cargo",
-      "args": ["test"],
+      "args": [
+        "test"
+      ],
       "options": {
         "env": {
           "RUSTFLAGS": "-Cinstrument-coverage",
           "LLVM_PROFILE_FILE": "${workspaceFolder}/coverage/${workspaceFolderBasename}.profraw"
         }
       },
-      "problemMatcher": ["$rustc"],
+      "problemMatcher": [
+        "$rustc"
+      ],
       "group": "test",
       "label": "test"
     },
@@ -31,7 +35,9 @@
       ],
       "group": "test",
       "label": "coverage",
-      "dependsOn": ["test"]
+      "dependsOn": [
+        "test"
+      ]
     }
   ]
 }
