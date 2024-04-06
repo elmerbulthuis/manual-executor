@@ -1,5 +1,5 @@
-use crate::key::Key;
-use crate::task_wake::TaskWake;
+use crate::Key;
+use crate::TaskWake;
 use core::{
   future::Future,
   ops::DerefMut,

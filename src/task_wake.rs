@@ -1,7 +1,7 @@
-use crate::{key::Key, ManualExecutor};
+use crate::{Key, ManualExecutor};
 use std::{sync::Arc, task::Wake};
 
-pub struct TaskWake {
+pub(crate) struct TaskWake {
   executor: Arc<ManualExecutor>,
   key: Key,
 }
