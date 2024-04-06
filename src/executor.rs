@@ -1,5 +1,4 @@
 use crate::key::Key;
-use once_cell::sync::Lazy;
 use std::{
   collections::BTreeMap,
   future::Future,
@@ -8,18 +7,6 @@ use std::{
   sync::{Arc, Mutex},
   task::{Context, Wake, Waker},
 };
-
-pub static MANUAL_EXECUTOR: Lazy<Arc<ManualExecutor>> = Lazy::new(ManualExecutor::new);
-
-#[no_mangle]
-extern "C" fn wake_all() {
-  MANUAL_EXECUTOR.wake_all();
-}
-
-#[no_mangle]
-extern "C" fn wake(key: Key) {
-  MANUAL_EXECUTOR.wake(key);
-}
 
 type Task = Pin<Box<dyn Future<Output = ()> + Send>>;
 
@@ -107,10 +94,13 @@ impl Wake for ManualWake {
 #[cfg(test)]
 mod tests {
   use super::*;
+  use once_cell::sync::Lazy;
   use std::{collections::HashSet, sync::Mutex};
 
   #[test]
-  fn test_executor() {
+  fn test_wake_all() {
+    pub static MANUAL_EXECUTOR: Lazy<Arc<ManualExecutor>> = Lazy::new(ManualExecutor::new);
+
     let set = Arc::new(Mutex::new(HashSet::new()));
 
     {
