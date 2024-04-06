@@ -5,5 +5,6 @@
 !.editorconfig
 
 target/
+coverage/
 
 !.vscode/

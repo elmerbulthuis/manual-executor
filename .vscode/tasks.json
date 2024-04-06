@@ -1,0 +1,37 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "process",
+      "command": "cargo",
+      "args": ["test"],
+      "options": {
+        "env": {
+          "RUSTFLAGS": "-Cinstrument-coverage",
+          "LLVM_PROFILE_FILE": "${workspaceFolder}/coverage/${workspaceFolderBasename}.profraw"
+        }
+      },
+      "problemMatcher": ["$rustc"],
+      "group": "test",
+      "label": "test"
+    },
+    {
+      "type": "process",
+      "command": "grcov",
+      "args": [
+        "${workspaceFolder}/coverage/",
+        "--binary-path",
+        "${workspaceFolder}/target/debug/deps/",
+        "--source-dir",
+        "${workspaceFolder}/src",
+        "--output-types",
+        "lcov",
+        "--output-path",
+        "${workspaceFolder}/coverage/lcov.info"
+      ],
+      "group": "test",
+      "label": "coverage",
+      "dependsOn": ["test"]
+    }
+  ]
+}
