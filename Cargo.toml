@@ -6,7 +6,7 @@ edition = "2021"
 license = "ISC"
 authors = ["Elmer Bulthuis"]
 keywords = ["async", "executor", "async", "futures"]
-repository = "git@github.com:LuvDaSun/manual-executor"
+repository = "https://github.com/elmerbulthuis/manual-executor"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
