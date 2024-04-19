@@ -4,40 +4,51 @@
     {
       "type": "process",
       "command": "cargo",
-      "args": [
-        "test"
-      ],
+      "args": ["build", "--package", "${workspaceFolderBasename}"],
+      "problemMatcher": ["$rustc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "label": "build"
+    },
+    {
+      "type": "process",
+      "command": "cargo",
+      "args": ["test", "--package", "${workspaceFolderBasename}", "--all-targets"],
       "options": {
         "env": {
-          "RUSTFLAGS": "-Cinstrument-coverage",
-          "LLVM_PROFILE_FILE": "${workspaceFolder}/coverage/${workspaceFolderBasename}.profraw"
+          "RUSTFLAGS": "-C instrument-coverage",
+          "LLVM_PROFILE_FILE": "${workspaceFolder}/coverage/default.profraw"
         }
       },
-      "problemMatcher": [
-        "$rustc"
-      ],
-      "group": "test",
+      "problemMatcher": ["$rustc"],
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
       "label": "test"
     },
     {
       "type": "process",
       "command": "grcov",
       "args": [
-        "${workspaceFolder}/coverage/",
-        "--binary-path",
-        "${workspaceFolder}/target/debug/deps/",
+        "${workspaceFolder}/coverage/default.profraw",
         "--source-dir",
         "${workspaceFolder}/src",
+        "--binary-path",
+        "${workspaceFolder}/target/debug/",
         "--output-types",
         "lcov",
+        "--branch",
+        "--ignore-not-existing",
         "--output-path",
         "${workspaceFolder}/coverage/lcov.info"
       ],
+      "problemMatcher": [],
       "group": "test",
       "label": "coverage",
-      "dependsOn": [
-        "test"
-      ]
+      "dependsOn": ["test"]
     }
   ]
 }

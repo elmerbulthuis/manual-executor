@@ -16,5 +16,3 @@ Like this (on arch)
 pacman -S grcov
 rustup component add llvm-tools
 ```
-
-You might want to manually clean up the target directory from time to time to keep grcov form not erroring...
